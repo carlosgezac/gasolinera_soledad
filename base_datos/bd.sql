@@ -18,6 +18,40 @@ USE `gasolinera_soledad`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `checador`
+--
+
+DROP TABLE IF EXISTS `checador`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `checador` (
+  `id_checador` int NOT NULL AUTO_INCREMENT,
+  `fecha_hora` timestamp(6) NOT NULL,
+  `tipo` varchar(45) NOT NULL,
+  `id_empleado` int NOT NULL,
+  PRIMARY KEY (`id_checador`),
+  KEY `id_empleado_idx` (`id_empleado`),
+  CONSTRAINT `id_empleado` FOREIGN KEY (`id_empleado`) REFERENCES `empleado` (`id_empleado`)
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Temporary view structure for view `checadorview`
+--
+
+DROP TABLE IF EXISTS `checadorview`;
+/*!50001 DROP VIEW IF EXISTS `checadorview`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `checadorview` AS SELECT 
+ 1 AS `id_checador`,
+ 1 AS `fecha_hora`,
+ 1 AS `tipo`,
+ 1 AS `numero_empleado`,
+ 1 AS `nombre_empleado`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `contacto`
 --
 
@@ -31,6 +65,26 @@ CREATE TABLE `contacto` (
   `email` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_contacto`)
 ) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `contrato`
+--
+
+DROP TABLE IF EXISTS `contrato`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `contrato` (
+  `id contrato` int NOT NULL,
+  `fecha_inicial` date NOT NULL,
+  `fecha_final` date DEFAULT NULL,
+  `fecha_finiquito` date DEFAULT NULL,
+  `id_empleado` int NOT NULL,
+  PRIMARY KEY (`id contrato`),
+  KEY `id contrato_idx` (`id contrato`),
+  KEY `id_empleado_idx` (`id_empleado`),
+  CONSTRAINT `id_empleado_fk` FOREIGN KEY (`id_empleado`) REFERENCES `empleado` (`id_empleado`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,12 +125,14 @@ CREATE TABLE `empleado` (
   `rfc` varchar(13) NOT NULL,
   `escolaridad` varchar(50) NOT NULL,
   `puesto` varchar(50) NOT NULL,
-  `id_turno` int NOT NULL,
   `nss_imss` varchar(45) NOT NULL,
   `estatus` varchar(45) NOT NULL,
   `foto` varchar(250) DEFAULT NULL,
   `fecha_ingreso` date NOT NULL,
   `genero` varchar(45) NOT NULL,
+  `enfermedad` varchar(50) DEFAULT NULL,
+  `incidentes_laborales` varchar(200) DEFAULT NULL,
+  `cursos_capacitacion` varchar(200) DEFAULT NULL,
   `observaciones` varchar(200) DEFAULT NULL,
   `id_direccion` int NOT NULL,
   `id_contacto` int NOT NULL,
@@ -84,26 +140,28 @@ CREATE TABLE `empleado` (
   UNIQUE KEY `numero_empleado_UNIQUE` (`numero_empleado`),
   KEY `fk_empleado_direccion_idx` (`id_direccion`),
   KEY `fk_empleado_contacto1_idx` (`id_contacto`),
-  KEY `fk_empleado_turno1_idx` (`id_turno`),
   CONSTRAINT `fk_empleado_contacto1` FOREIGN KEY (`id_contacto`) REFERENCES `contacto` (`id_contacto`),
-  CONSTRAINT `fk_empleado_direccion` FOREIGN KEY (`id_direccion`) REFERENCES `direccion` (`id_direccion`),
-  CONSTRAINT `fk_empleado_turno1` FOREIGN KEY (`id_turno`) REFERENCES `turno` (`id_turno`)
+  CONSTRAINT `fk_empleado_direccion` FOREIGN KEY (`id_direccion`) REFERENCES `direccion` (`id_direccion`)
 ) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `turno`
+-- Final view structure for view `checadorview`
 --
 
-DROP TABLE IF EXISTS `turno`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `turno` (
-  `id_turno` int NOT NULL,
-  `turno` varchar(45) NOT NULL,
-  PRIMARY KEY (`id_turno`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!50001 DROP VIEW IF EXISTS `checadorview`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `checadorview` AS select `c`.`id_checador` AS `id_checador`,`c`.`fecha_hora` AS `fecha_hora`,`c`.`tipo` AS `tipo`,`e`.`numero_empleado` AS `numero_empleado`,concat(`e`.`nombre`,' ',`e`.`apellido_paterno`,' ',`e`.`apellido_materno`) AS `nombre_empleado` from (`checador` `c` join `empleado` `e` on((`c`.`id_empleado` = `e`.`id_empleado`))) order by `c`.`fecha_hora` desc */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -114,4 +172,4 @@ CREATE TABLE `turno` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-09 14:29:41
+-- Dump completed on 2020-10-24  1:21:26
