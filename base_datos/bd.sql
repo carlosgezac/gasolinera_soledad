@@ -18,53 +18,150 @@ USE `gasolinera_soledad`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Dumping data for table `checador`
+-- Table structure for table `checador`
 --
 
-LOCK TABLES `checador` WRITE;
-/*!40000 ALTER TABLE `checador` DISABLE KEYS */;
-INSERT INTO `checador` VALUES (36,'2020-10-20 20:05:16.168000','Entrada',30),(37,'2020-10-21 12:17:37.302000','Salida',30),(38,'2020-10-21 12:17:40.176000','Entrada',30),(39,'2020-10-21 12:17:42.421000','Salida',30),(40,'2020-10-21 12:17:44.961000','Entrada',30),(41,'2020-10-21 12:17:49.127000','Salida',30),(42,'2020-10-21 12:17:53.334000','Entrada',30),(43,'2020-10-21 12:17:56.472000','Salida',30),(44,'2020-10-21 12:17:59.950000','Entrada',30),(45,'2020-10-21 12:18:14.504000','Salida',30),(46,'2020-10-21 12:18:19.881000','Entrada',30),(47,'2020-10-21 12:18:28.977000','Salida',30),(48,'2020-10-21 12:23:26.712000','Entrada',30),(49,'2020-10-20 20:24:16.196000','Salida',30),(50,'2020-10-22 07:59:19.841000','Salida',30),(51,'2020-10-22 07:59:43.904000','Entrada',31);
-/*!40000 ALTER TABLE `checador` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `checador`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `checador` (
+  `id_checador` int NOT NULL AUTO_INCREMENT,
+  `fecha_hora` timestamp(6) NOT NULL,
+  `tipo` varchar(45) NOT NULL,
+  `id_empleado` int NOT NULL,
+  PRIMARY KEY (`id_checador`),
+  KEY `id_empleado_idx` (`id_empleado`),
+  CONSTRAINT `id_empleado` FOREIGN KEY (`id_empleado`) REFERENCES `empleado` (`id_empleado`)
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `contacto`
+-- Temporary view structure for view `checadorview`
 --
 
-LOCK TABLES `contacto` WRITE;
-/*!40000 ALTER TABLE `contacto` DISABLE KEYS */;
-INSERT INTO `contacto` VALUES (129,'4931009752','4931009752','carlos@hotmail.com'),(130,'345','1234234','345345234234'),(145,'e','e','e'),(148,'2','22','2'),(152,'w','carlosw','w'),(154,'e','3425','e');
-/*!40000 ALTER TABLE `contacto` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `checadorview`;
+/*!50001 DROP VIEW IF EXISTS `checadorview`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `checadorview` AS SELECT 
+ 1 AS `id_checador`,
+ 1 AS `fecha_hora`,
+ 1 AS `tipo`,
+ 1 AS `numero_empleado`,
+ 1 AS `nombre_empleado`*/;
+SET character_set_client = @saved_cs_client;
 
 --
--- Dumping data for table `contrato`
+-- Table structure for table `contacto`
 --
 
-LOCK TABLES `contrato` WRITE;
-/*!40000 ALTER TABLE `contrato` DISABLE KEYS */;
-/*!40000 ALTER TABLE `contrato` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `contacto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `contacto` (
+  `id_contacto` int NOT NULL AUTO_INCREMENT,
+  `telefono_casa` varchar(20) DEFAULT NULL,
+  `celular` varchar(20) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_contacto`)
+) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `direccion`
+-- Table structure for table `contrato`
 --
 
-LOCK TABLES `direccion` WRITE;
-/*!40000 ALTER TABLE `direccion` DISABLE KEYS */;
-INSERT INTO `direccion` VALUES (117,'Fco I Madero','1A','99','Bañuelos','Fresnillo','Zacatecas',NULL),(118,'333','','dfsgdsfg','dfsg','dfgdfgf24234','Zacatecas',NULL),(133,'e','e','e','e','e','Zacatecas',NULL),(136,'2','2','2','2','2','Zacatecas',NULL),(140,'w','w','w','w','wcarlos','Zacatecas',NULL),(142,'e','e','e','e','e','Zacatecas',NULL);
-/*!40000 ALTER TABLE `direccion` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `contrato`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `contrato` (
+  `id_contrato` int NOT NULL AUTO_INCREMENT,
+  `fecha_inicial` date NOT NULL,
+  `fecha_final` date DEFAULT NULL,
+  `fecha_finiquito` date DEFAULT NULL,
+  `id_empleado` int NOT NULL,
+  PRIMARY KEY (`id_contrato`),
+  KEY `id contrato_idx` (`id_contrato`),
+  KEY `id_empleado_idx` (`id_empleado`),
+  CONSTRAINT `id_empleado_fk` FOREIGN KEY (`id_empleado`) REFERENCES `empleado` (`id_empleado`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `empleado`
+-- Table structure for table `direccion`
 --
 
-LOCK TABLES `empleado` WRITE;
-/*!40000 ALTER TABLE `empleado` DISABLE KEYS */;
-INSERT INTO `empleado` VALUES (30,'1','Carlos','Gonzalez','Escobedo','1991-08-31','goec00000000000000','goec000000000','Educación Superior','Cajero','100-5089-9876','Activo','1_1602038416925.jpg','2020-10-08','Masculino','enfermedad','dfgerfg tewrtrewt ertrew twertrew t rewtrewtw rewtrewtwret rewtrewtwret frgewrt rqwewerqwer ertrewtret  wetwret wretwret rewtwret rewtrewt sdrtgrewt tywretret rewtrewt rewtrewt rewtrewtretrew tretrew ','aaaaaaa aaaaaaaaaaaaaa aaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaa aaaaaaaa aaaaaa aaaaaaaa aaaaaaaaa sssssssssss ssssssssssss sssssssssssssssss sssssssssssssssssssssssssssssssssss ssssssssssss','Seleccione la línea del empleado cuyos datos desea visualizar. Seleccione Tratar ® Empl ados ® Mostrar datos adicionales. Aparece la ventana de diálogo Datos del empleado. Seleccione los datos deseado',117,129),(31,'2','pedri','ert','1','2020-10-23','0ipìopòp','trewt','Educación Básica','erterw','3452423','Activo','2_1602038208381.jpg','2019-10-23','Masculino','','','','gsdg12122342134214',118,130),(46,'56','Edduardo','Lopez','Perez','2020-10-20','e','e','Educación Media Superior','e','e','Activo','e_1602047612333.jpg','2020-10-15','Femenino',NULL,NULL,NULL,'ty             ty4y            try',133,145),(49,'6','Eddgardo','Ruiz','Prieto','2020-10-16','2','2','Educación Básica','2','2','Activo','67_1602047643916.jpg','2020-10-29','Femenino',NULL,NULL,NULL,'rfaseasrtew',136,148),(53,'22','w','w','w','2020-10-30','w','w','Educación Básica','w','w','Activo','22_1602047729428.jpg','2020-10-23','Femenino',NULL,NULL,NULL,'dasfdas dasf dasfdas                                   dsf safdsf',140,152),(55,'55','e','ee','35tw','2020-10-28','e','e','Educación Media Superior','e','e','Inactivo','55_1602270346921.jpg','2020-10-21','Femenino',NULL,NULL,NULL,'43255 drftkljrewt kljrlewtwret',142,154);
-/*!40000 ALTER TABLE `empleado` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `direccion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `direccion` (
+  `id_direccion` int NOT NULL AUTO_INCREMENT,
+  `calle` varchar(50) NOT NULL,
+  `numero_interior` varchar(10) DEFAULT NULL,
+  `numero_exterior` varchar(10) NOT NULL,
+  `colonia` varchar(50) NOT NULL,
+  `municipio` varchar(50) NOT NULL,
+  `estado` varchar(50) NOT NULL,
+  `datos_adicionales` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id_direccion`)
+) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `empleado`
+--
+
+DROP TABLE IF EXISTS `empleado`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `empleado` (
+  `id_empleado` int NOT NULL AUTO_INCREMENT,
+  `numero_empleado` varchar(10) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `apellido_paterno` varchar(50) NOT NULL,
+  `apellido_materno` varchar(50) NOT NULL,
+  `fecha_nacimiento` date NOT NULL,
+  `curp` varchar(18) NOT NULL,
+  `rfc` varchar(13) NOT NULL,
+  `escolaridad` varchar(50) NOT NULL,
+  `puesto` varchar(50) NOT NULL,
+  `nss_imss` varchar(45) NOT NULL,
+  `estatus` varchar(45) NOT NULL,
+  `foto` varchar(250) DEFAULT NULL,
+  `fecha_ingreso` date NOT NULL,
+  `genero` varchar(45) NOT NULL,
+  `enfermedad` varchar(50) DEFAULT NULL,
+  `incidentes_laborales` varchar(200) DEFAULT NULL,
+  `cursos_capacitacion` varchar(200) DEFAULT NULL,
+  `observaciones` varchar(200) DEFAULT NULL,
+  `id_direccion` int NOT NULL,
+  `id_contacto` int NOT NULL,
+  PRIMARY KEY (`id_empleado`),
+  UNIQUE KEY `numero_empleado_UNIQUE` (`numero_empleado`),
+  KEY `fk_empleado_direccion_idx` (`id_direccion`),
+  KEY `fk_empleado_contacto1_idx` (`id_contacto`),
+  CONSTRAINT `fk_empleado_contacto1` FOREIGN KEY (`id_contacto`) REFERENCES `contacto` (`id_contacto`),
+  CONSTRAINT `fk_empleado_direccion` FOREIGN KEY (`id_direccion`) REFERENCES `direccion` (`id_direccion`)
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Final view structure for view `checadorview`
+--
+
+/*!50001 DROP VIEW IF EXISTS `checadorview`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `checadorview` AS select `c`.`id_checador` AS `id_checador`,`c`.`fecha_hora` AS `fecha_hora`,`c`.`tipo` AS `tipo`,`e`.`numero_empleado` AS `numero_empleado`,concat(`e`.`nombre`,' ',`e`.`apellido_paterno`,' ',`e`.`apellido_materno`) AS `nombre_empleado` from (`checador` `c` join `empleado` `e` on((`c`.`id_empleado` = `e`.`id_empleado`))) order by `c`.`fecha_hora` desc */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -75,4 +172,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-24  1:30:15
+-- Dump completed on 2020-11-16 17:50:19
